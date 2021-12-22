@@ -15,9 +15,12 @@ const getBudget = (budget) => ({
     type: types.GET_SINGLE_BUDGET,
     payload: budget
 })
-const BudgetToBuild = (budget) => ({
+const budgetToBuild = (budget) => ({
     type: types.BUILD_BUDGET,
     payload: budget
+})
+const budgetUpdated = (budget) => ({
+    type: types.UPDATE_BUDGET,
 })
 const errorToSet = (error) => ({
     type: types.SET_ERROR,
@@ -51,7 +54,7 @@ export const addBudget = (budget) => {
 };
 export const buildBudget = (budget) => {
     return function (dispatch) {
-        dispatch(BudgetToBuild(budget));
+        dispatch(budgetToBuild(budget));
     };
 }
 export const setError = (budget) => {
@@ -64,6 +67,15 @@ export const getSingleBudget = (id) => {
         axios.get(`${process.env.REACT_APP_API}/budgets/${id}`).then((resp) => {
             console.log("resp", resp)
             dispatch(getBudget(resp));
+        }).catch((error) => console.log(error));
+    };
+};
+
+export const updateBudget = (budget, id) => {
+    return function (dispatch) {
+        axios.put(`${process.env.REACT_APP_API}/budgets/${id}`, budget).then((resp) => {
+            console.log("resp", resp)
+            dispatch(budgetUpdated());
         }).catch((error) => console.log(error));
     };
 };

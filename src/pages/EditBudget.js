@@ -6,18 +6,38 @@ import { Select } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { buildBudget, addBudget, loadTypeBudgetisationSansActe, loadTypeBudgets, setError } from '../redux/actions';
+import { buildBudget, updateBudget, loadTypeBudgetisationSansActe, loadTypeBudgets, setError, getSingleBudget } from '../redux/actions';
+import { useParams } from "react-router-dom";
 
-function AddBudget() {
+function EditBudget() {
+
+    //use history to switch up component while keeping up navigation history.
     let history = useHistory();
+
+    // useDispatch  to dispatch actions to the store.
     let dispatch = useDispatch();
-    const { typeBudgets } = useSelector(state => state.typeBudgetsData.typeBudgets)
-    const { typeBudgetisationSansActes } = useSelector(state => state.typeBudgetisationSansActesData.typeBudgetisationSansActes)
+
+    // selector to fetch typeBudgets from the store
+    const { typeBudgets } = useSelector(state => state.typeBudgetsData)
+
+    // selector to fetch type of budgets sans actes
+    const { typeBudgetisationSansActes } = useSelector(state => state.typeBudgetisationSansActesData)
+
+    // selector to hook up the budget state on the store
     const budget = useSelector(state => state.budgetsData.budget)
+
+    // param to get the id prop from the component.
+    let { id } = useParams()
+
     useEffect(() => {
         dispatch(loadTypeBudgets())
         dispatch(loadTypeBudgetisationSansActe())
     }, []);
+
+    useEffect(() => {
+        dispatch(getSingleBudget(id))
+    }, []);
+
     const handleInputChange = (e) => {
         const target = e.target;
         const value = target.value;
@@ -27,11 +47,9 @@ function AddBudget() {
     const handleSubmit = (e) => {
         e.preventDefault();
         budget["typeBudget"] = typeBudgets.find(b => b.code === budget.typeBudget);
-        dispatch(addBudget(budget));
-        dispatch(setError(""))
+        dispatch(updateBudget(budget, id));
         history.push("/");
     }
-    /*     }; */
     return (
         <div>
             <Button variant="contained" color="secondary" type="submit" onClick={() => history.push("/")}> Go Back </Button>
@@ -127,4 +145,4 @@ function AddBudget() {
     )
 }
 
-export default AddBudget
+export default EditBudget

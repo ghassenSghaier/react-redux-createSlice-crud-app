@@ -5,13 +5,13 @@ import App from './App';
 import { Provider } from "react-redux"
 import { BrowserRouter } from "react-router-dom"
 import reportWebVitals from './reportWebVitals';
-import store from './redux/store';
+import configureStore  from './redux/store'
 
 ReactDOM.render(
   <React.StrictMode>
-   {/* when we nest our application wthin BrowserRouter Element , it will have routing capabilities  */}
+    {/* when we nest our application wthin BrowserRouter Element , it will have routing capabilities  */}
     <BrowserRouter>
-      <Provider store={store}>
+      <Provider store={configureStore()}>
         <App />
       </Provider>
     </BrowserRouter>

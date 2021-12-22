@@ -40,6 +40,7 @@ const Home = () => {
     /* data => root reducer ==> data */
     const { budgets } = useSelector(state => state.budgetsData)
     useEffect(() => {
+        /*  on avait utilisé l'action loadBudgets qui est associé au reducer budgetsReducers */
         dispatch(loadBudgets())
     }, []);
     const handleDelete = (id) => {
@@ -83,7 +84,7 @@ const Home = () => {
                                 <StyledTableCell align="center">
                                     <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                         <Button color="secondary" onClick={() => handleDelete(budget.code)}>Delete</Button>
-                                        <Button color="primary" onClick={() => history.push(`/edituser/${budget.code}`)}>Edit</Button>
+                                        <Button color="primary" onClick={() => history.push(`/editBudget/${budget.code}`)}>Edit</Button>
                                     </ButtonGroup></StyledTableCell>
                             </StyledTableRow>
                         ))}

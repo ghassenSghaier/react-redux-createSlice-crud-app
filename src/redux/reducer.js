@@ -3,11 +3,20 @@ const initialState = {
     budgets: [],
     typeBudgets: [],
     typeBudgetisationSansActes: [],
-    budgetA: {},
-    budgetE: {},
-    loading: true
+    loading: true,
+    budget: {
+        typeBudget: {
+            code: '',
+        },
+        designation: '',
+        designationSec: '',
+        codeTypeBudgetisationSansActe: '',
+        dateDuReference: '',
+        dateAuReference: '',
+        dateDu: '',
+        dateAu: '',
+    }
 }
-
 export const budgetsReducers = (state = initialState, action) => {
     switch (action.type) {
         case types.GET_BUDGETS:
@@ -24,12 +33,17 @@ export const budgetsReducers = (state = initialState, action) => {
             }
         case types.GET_SINGLE_BUDGET:
             return {
-                ...state, budgets: action.payload, loading: false,
+                ...state, budget: action.payload, loading: false,
             }
         case types.BUILD_BUDGET:
             return {
-                ...state, budgetA: action.payload, loading: false,
-            }
+                ...state, loading: false
+            };
+
+        case types.UPDATE_BUDGET:
+            return {
+                ...state, loading: false
+            };
         default:
             return state;
     }
